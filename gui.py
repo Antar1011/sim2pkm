@@ -1,6 +1,5 @@
 # Based on tkinterEntryWidget.py
 # by S.Prasanna
-
 from Tkinter import *
 import sim2pkm
 import tkMessageBox
@@ -47,8 +46,9 @@ def doTheThing():
 		sim2pkm.writepkm(dirname+'/'+poke['species']+'.pkm',poke)
     	root.destroy()
 
-dirname = '.'
+dirname = '..'
 root = Tk()
+root.withdraw()
 
 root.title("sim2pkm")
 
@@ -65,4 +65,5 @@ textFrame.pack()
 button = Button(textFrame, text="Generate pkms & close", command=doTheThing)
 button.pack() 
 dirname = askdirectory(parent=root, initialdir='.', title='Select folder to generate pkm files into')
+root.deiconify()
 root.mainloop()
