@@ -86,7 +86,7 @@ def ballEnforce(poke):
 				if move in cherishmove[poke['species']]:
 					ball = 'cherish'
 					nonick = True
-					print move+' is event-only on '+poke['species']
+					#print move+' is event-only on '+poke['species']
 		else:
 			ball = 'cherish'
 			#print move+' is illegal on '+poke['species']

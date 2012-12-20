@@ -4,6 +4,7 @@
 from Tkinter import *
 import sim2pkm
 import tkMessageBox
+from tkFileDialog import askdirectory
 
 class mywidgets:
 	def __init__(self,root):
@@ -43,9 +44,10 @@ def doTheThing():
 	for entry in splitraw:
 		pokes.append(sim2pkm.sim2poke(entry))
 	for poke in pokes:
-		sim2pkm.writepkm('pkms/'+poke['species']+'.pkm',poke)
+		sim2pkm.writepkm(dirname+'/'+poke['species']+'.pkm',poke)
     	root.destroy()
 
+dirname = '.'
 root = Tk()
 
 root.title("sim2pkm")
@@ -62,5 +64,5 @@ textFrame.pack()
 
 button = Button(textFrame, text="Generate pkms & close", command=doTheThing)
 button.pack() 
-
+dirname = askdirectory(parent=root, initialdir='.', title='Select folder to generate pkm files into')
 root.mainloop()
