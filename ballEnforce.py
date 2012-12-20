@@ -21,6 +21,7 @@ def keyify(s):
 			sout = sout + c
 	return sout
 
+#fixes to learnsets
 for poke in learnset:
 	movepool[poke] = learnset[poke]['learnset'].keys()
 	if 'prevo' in pokedex[poke].keys():
@@ -29,6 +30,10 @@ for poke in learnset:
 		if 'prevo' in pokedex[prevo].keys():
 			baby = pokedex[prevo]['prevo']
 			movepool[poke].append(learnset[baby]['learnset'].keys())
+movepool['deoxysattack']=movepool['deoxysdefense']=movepool['deoxysspeed']=movepool['deoxys']
+movepool['shaymin'].append(movepool['shayminsky'])
+movepool['shayminsky']=movepool['shaymin']
+
 
 cherishmove = {'Celebi': ['nastyplot'],
 	'Charmander': ['quickattack','howl'],
