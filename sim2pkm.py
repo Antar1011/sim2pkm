@@ -94,6 +94,8 @@ def writepkm(filename,poke):
 		p[0x40]=p[0x40]+4
 	elif gender == 2:
 		p[0x40]=p[0x40]+2
+	if poke['species']=='Shaymin-Sky':
+		p[0x40]=p[0x40]+1 #Shaymin-Sky needs fateful encounter
 	#gender must also be set in the PID
 	if gender == 1:
 		p[0x00]=255

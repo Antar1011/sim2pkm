@@ -74,19 +74,21 @@ def ballEnforce(poke):
 	if poke['species'] in cherishonly:
 		ball = 'cherish'
 		nonick = True
+		#print poke['species']+' is cherish-only'
 	for move in poke['moves']:
 		if move in movepool[keyify(poke['species'])]:
-			if poke in cherishmove.keys():
+			if poke['species'] in cherishmove:
 				if move in cherishmove[poke['species']]:
 					ball = 'cherish'
 					nonick = True
+					print move+' is event-only on '+poke['species']
 		else:
 			ball = 'cherish'
+			#print move+' is illegal on '+poke['species']
 			break
 
 	if ball == 'pokeball':
 		if poke['species'] in dreamradar:
 			if poke['ability'] == dreamradar[poke['species']]:
 				ball = 'dream'
-
 	return [ball,nonick]
