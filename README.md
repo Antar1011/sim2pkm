@@ -9,7 +9,7 @@ It's currently very usable from the command-line, but I hope to build a GUI onto
 
 Here's an example script showing how one might use this. Assume you've taken a team in PS, exported it, and saved it as "test.txt" and that you've created a subfolder for your pkm files called "pkms"
 
-``python
+```python
 import sim2pkm
 
 file=open("test.txt")
@@ -21,3 +21,4 @@ for entry in splitraw:
 	pokes.append(sim2pkm.sim2poke(entry))
 for poke in pokes:
 	sim2pkm.writepkm('pkms/'+poke['species']+'.pkm',poke)
+```
