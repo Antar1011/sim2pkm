@@ -807,8 +807,8 @@ formes = {#forme-name: [species,fakenum,forme num]
 	'Wormadam-Trash': ['Wormadam',1008,2],
 	'Tornadus-Therian': ['Tornadus',1009,1],
 	'Thundurus-Therian': ['Thundurus',1010,1],
-	'Kyurem-Black': ['Kyurem',1011,1],
-	'Kyurem-White': ['Kyurem',1012,2],
+	'Kyurem-Black': ['Kyurem',1011,2],
+	'Kyurem-White': ['Kyurem',1012,1],
 	'Landorus-Therian': ['Landorus',1013,1]}
 	
 nature = {
