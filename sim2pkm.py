@@ -1,4 +1,5 @@
 from lookup import *
+from ballEnforce import *
 
 def statFormula(base,lv,nat,iv,ev):
 	if nat == -1: #for HP
@@ -33,6 +34,10 @@ def writepkm(filename,poke):
 	item = inv_items[poke['item']]
 	ability = inv_abilities[poke['ability']]
 
+	[ball, nonick] = ballEnforce(poke)
+	if nonick:
+		poke['nick']=''
+	
 	if num == 493:
 		if item in range(0x012A,0x013A):
 			forme = [9,10,12,11,14,1,3,4,2,13,6,5,7,15,16,8][item-0x012A]
@@ -112,6 +117,16 @@ def writepkm(filename,poke):
 	p[0x0a]=item%256
 	p[0x0b]=item/256
 
+	#pokeball
+	if ball == 'pokeball':
+		p[0x83]=4
+	elif ball == 'cherishball':
+		p[0x83]=16
+	elif ball == 'dreamball':
+		p[0x83]=25
+	#else:
+		#i dunno
+
 	#IVs
 	ivcomb=0
 	for i in range(0,6):
@@ -119,6 +134,10 @@ def writepkm(filename,poke):
 	for i in range(56,60):
 		p[i]=ivcomb%256
 		ivcomb=ivcomb/256
+	
+	#nicknamed tag
+	if poke['nick'] != '':
+		p[0x3B]=p[0x3B]+128
 
 	#EVs
 	for i in range(0,6):
@@ -143,9 +162,11 @@ def writepkm(filename,poke):
 	for i in range(len(moves)):
 		p[48+i]=pp[moves[i]]
 
-	#nickname=name
-	for i in range(len(species[num])):
-		p[72+2*i]=ord(species[num][i])
+	#nickname
+	if poke['nick'] == '':
+		poke['nick']=fakename
+	for i in range(len(poke['nick'])):
+		p[72+2*i]=ord(poke['nick'][i])
 	p[72+2*i+2] = p[72+2*i+3] = p[92] = p[93] = ord('\xff')
 
 	#checksum
@@ -163,6 +184,7 @@ def writepkm(filename,poke):
 
 def sim2poke(raw):
 	species = 'empty'
+	nick = ''
 	item = 'nothing'
 	ability = ''
 	level=100
@@ -171,23 +193,30 @@ def sim2poke(raw):
 	moves = []
 	gender = 'n'
 	happiness = 255
+	nature = 'hardy'
 
 	#first line (species)
 	line=raw[0]
 	if '(' in line: #nicknamed
 		species = keyify(line[string.rfind(line,'(')+1:string.rfind(line,')')])
+		nick = line[:string.rfind(line,'(')-1]
 		if species in ['m','f']: #you got gender, not species
 			gender = species
 
 			if '(' in line[:string.rfind(line,'(')]:
 				species = line[string.rfind(line,'(',0,string.rfind(line,'('))+1:string.rfind(line,')',0,string.rfind(line,'('))]
+				nick = line[:string.rfind(line,'(',0,string.rfind(line,'('))-1]
 			else:
 				species = line[:string.rfind(line,'(')]
+				nick = species
 	else:
 		if '@' in line: #is there an item
 			species = line[0:string.rfind(line,'@')]
 		else:
 			species = line[0:len(line)-1]
+
+	if len(nick)>10:
+		nick = '' #no nicknames longer than 10 chars
 
 	if species[0] not in string.lowercase + string.uppercase:
 		species=species[1:]
@@ -217,6 +246,8 @@ def sim2poke(raw):
 		item = keyify(line[string.rfind(line,'@')+1:len(line)-1])
 
 	for line in raw[1:]:
+		if line == '\n':
+			break
 		if line.startswith('Trait:'):
 			ability = keyify(line[6:len(line)-1])
 		elif line.startswith('Level:'):
@@ -303,6 +334,7 @@ def sim2poke(raw):
 
 		
 	return {'species': keyLookup[species],
+		'nick': nick,
 		'gender': gender,
 		'level': level,
 		'evs': [evs['hp'],evs['atk'],evs['def'],evs['spa'],evs['spd'],evs['spe']],
@@ -312,5 +344,19 @@ def sim2poke(raw):
 		'item': keyLookup[item],
 		'happiness': happiness,
 		'ability': keyLookup[ability]}
+
+def splitExport(raw):
+	working=[]
+	splitraw=[]
+	for line in raw:
+		if line == '\n':
+			if len(working)>1:
+				splitraw.append(working)
+			working = []
+		else:
+			working.append(line)
+	if len(working)>1:
+		splitraw.append(working)
+	return splitraw
 		
 		
