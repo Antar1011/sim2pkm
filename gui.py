@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # Based on tkinterEntryWidget.py
 # by S.Prasanna
 from Tkinter import *
