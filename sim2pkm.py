@@ -8,6 +8,62 @@ def statFormula(base,lv,nat,iv,ev):
 	else:
 		return ((iv+2*base+ev/4)*lv/100+5)*nat/10
 
+def hpivs(hptype):
+	ivs = {'hp': 31, 'atk': 31, 'def': 31, 'spa': 31, 'spd': 31, 'spe': 31}
+	if hptype == 'bug':
+		ivs['atk']=30
+		ivs['def']=30
+		ivs['spd']=30
+	#elif hptype == 'dark':
+	elif hptype == 'dragon':
+		ivs['atk']=30 
+	elif hptype == 'electric':
+		ivs['spa']=30
+	elif hptype == 'fighting':
+		ivs['def']=30
+		ivs['spa']=30
+		ivs['spd']=30
+		ivs['spe']=30
+	elif hptype == 'fire':
+		ivs['atk']=30
+		ivs['spa']=30
+		ivs['spe']=30
+	elif hptype == 'flying':
+		ivs['hp']=30
+		ivs['atk']=30
+		ivs['def']=30
+		ivs['spa']=30
+		ivs['spd']=30
+	elif hptype == 'ghost':
+		ivs['def']=30
+		ivs['spd']=30
+	elif hptype == 'grass':
+		ivs['atk']=30
+		ivs['spa']=30
+	elif hptype == 'ground':
+		ivs['spa']=30
+		ivs['spd']=30
+	elif hptype == 'ice':
+		ivs['atk']=30
+		ivs['def']=30
+	elif hptype == 'poison':
+		ivs['def']=30
+		ivs['spa']=30
+		ivs['spd']=30
+	elif hptype == 'psychic':
+		ivs['atk']=30
+		ivs['spe']=30
+	elif hptype == 'rock':
+		ivs['def']=30
+		ivs['spd']=30
+		ivs['spe']=30
+	elif hptype == 'steel':
+		ivs['spd']=30
+	elif hptype == 'water':
+		ivs['def']=30
+		ivs['spa']=30
+	return ivs
+
 def writepkm(filename,poke):
 #example:
 #poke=	{'species': 'Giratina-Origin',
@@ -281,60 +337,10 @@ def sim2poke(raw):
 			happiness = int(line[10:len(line)-1])
 		elif line[0] == '-':
 			move = keyify(line[1:len(line)-1])
-			if move.startswith('hiddenpower') and ivs == {'hp': 31, 'atk': 31, 'def': 31, 'spa': 31, 'spd': 31, 'spe': 31}:
-				hptype = move[11:]
-				if hptype == 'bug':
-					ivs['atk']=30
-					ivs['def']=30
-					ivs['spd']=30
-				#elif hptype == 'dark':
-				elif hptype == 'dragon':
-					ivs['atk']=30 
-				elif hptype == 'electric':
-					ivs['spa']=30
-				elif hptype == 'fighting':
-					ivs['def']=30
-					ivs['spa']=30
-					ivs['spd']=30
-					ivs['spe']=30
-				elif hptype == 'fire':
-					ivs['atk']=30
-					ivs['spa']=30
-					ivs['spe']=30
-				elif hptype == 'flying':
-					ivs['hp']=30
-					ivs['atk']=30
-					ivs['def']=30
-					ivs['spa']=30
-					ivs['spd']=30
-				elif hptype == 'ghost':
-					ivs['def']=30
-					ivs['spd']=30
-				elif hptype == 'grass':
-					ivs['atk']=30
-					ivs['spa']=30
-				elif hptype == 'ground':
-					ivs['spa']=30
-					ivs['spd']=30
-				elif hptype == 'ice':
-					ivs['atk']=30
-					ivs['def']=30
-				elif hptype == 'poison':
-					ivs['def']=30
-					ivs['spa']=30
-					ivs['spd']=30
-				elif hptype == 'psychic':
-					ivs['atk']=30
-					ivs['spe']=30
-				elif hptype == 'rock':
-					ivs['def']=30
-					ivs['spd']=30
-					ivs['spe']=30
-				elif hptype == 'steel':
-					ivs['spd']=30
-				elif hptype == 'water':
-					ivs['def']=30
-					ivs['spa']=30
+			if move.startswith('hiddenpower'):
+				if ivs == {'hp': 31, 'atk': 31, 'def': 31, 'spa': 31, 'spd': 31, 'spe': 31}:
+					hptype = move[11:]
+					ivs = hpivs(hptype)
 				move = 'hiddenpower'
 			moves.append(move)
 
@@ -394,6 +400,13 @@ def json2poke(j):
 		happiness = int(j['happiness'])
 	if 'nature' in j:
 		nature = keyify(j['nature'])
+
+	for i in range(len(moves)):
+		if moves[i].startswith('hiddenpower'):
+			if ivs == {'hp': 31, 'atk': 31, 'def': 31, 'spa': 31, 'spd': 31, 'spe': 31}:
+				hptype = moves[i][11:]
+				ivs = hpivs(hptype)
+			moves[i]='hiddenpower'
 
 	return {'species': keyLookup[species],
 		'nick': nick,

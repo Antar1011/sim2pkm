@@ -5,6 +5,7 @@ import sim2pkm
 import tkMessageBox
 from tkFileDialog import askdirectory
 import json
+import webbrowser
 
 class mywidgets:
 	def __init__(self,root):
@@ -55,6 +56,11 @@ def doTheThing():
 		sim2pkm.writepkm(dirname+'/'+filename+'.pkm',pokes[i])
     	root.destroy()
 
+def randbats():
+	webbrowser.open("http://koalus-et-arbor.dyndns-ip.com/cgi-bin/randbats.sh")
+def challengecup():
+	webbrowser.open("http://koalus-et-arbor.dyndns-ip.com/cgi-bin/CC.sh")
+
 dirname = '..'
 root = Tk()
 randTeam = IntVar()
@@ -64,7 +70,7 @@ root.title("sim2pkm")
 
 # Create a text frame to hold the text Label and the Entry widget
 textFrame = Frame(root)
-w = Label(root, text="Paste your PO/PS export below:")
+w = Label(root, text="Paste your team below:")
 w.pack()
 
 # Create an Entry Widget in textFrame
@@ -74,6 +80,12 @@ textFrame.pack()
 
 button = Button(textFrame, text="Generate pkms & close", command=doTheThing)
 button.pack(side=LEFT)
+
+randbats = Button(textFrame, text="Get a randbats team", command=randbats)
+randbats.pack(side=LEFT)
+
+CC = Button(textFrame, text="Get a Challenge Cup team", command=challengecup)
+CC.pack(side=LEFT)
 
 c = Checkbutton(textFrame, text="Numbered pkms", variable=randTeam)
 c.pack(side=RIGHT)
