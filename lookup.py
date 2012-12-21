@@ -638,7 +638,7 @@ species = {
     471: 'Glaceon',
     472: 'Gliscor',
     473: 'Mamoswine',
-    474: 'PorygonZ',
+    474: 'Porygon-Z',
     475: 'Gallade',
     476: 'Probopass',
     477: 'Dusknoir',
