@@ -26,6 +26,33 @@ pp=[]
 for line in raw:
 	pp.append(int(line[0:len(line)-1])*8/5)
 
+#pokedex
+file=open("pokedex.json")
+raw=file.readline()
+file.close()
+pokedex = json.loads(raw[1:len(raw)-2])
+
+#movepool
+file=open("learnsets.json")
+raw=file.readline()
+file.close()
+learnset = json.loads(raw[1:len(raw)-2])
+movepool = {}
+
+#fixes to learnsets
+for poke in learnset:
+	movepool[poke] = learnset[poke]['learnset'].keys()
+	if 'prevo' in pokedex[poke].keys():
+		prevo = pokedex[poke]['prevo']
+		movepool[poke].append(learnset[prevo]['learnset'].keys())
+		if 'prevo' in pokedex[prevo].keys():
+			baby = pokedex[prevo]['prevo']
+			movepool[poke].append(learnset[baby]['learnset'].keys())
+movepool['deoxysattack']=movepool['deoxysdefense']=movepool['deoxysspeed']=movepool['deoxys']
+movepool['shaymin'].append(movepool['shayminsky'])
+movepool['shayminsky']=movepool['shaymin']
+
+
 statTranslate = {'HP': 'hp',
 		'Atk': 'atk',
 		'Def': 'def',
@@ -2595,5 +2622,3 @@ nmod = [[10,10,10,10,10], #hardy
 	[10,10,9,10,11],
 	[10,10,10,9,11],
 	[10,10,10,10,10]] #quirky
-
-

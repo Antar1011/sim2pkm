@@ -4,6 +4,7 @@ from Tkinter import *
 import sim2pkm
 import tkMessageBox
 from tkFileDialog import askdirectory
+import json
 
 class mywidgets:
 	def __init__(self,root):
@@ -34,20 +35,29 @@ class mywidgets:
 
 def doTheThing():
 	global entryWidget
-	raw= entryWidget.get().split('\n')
-	for i in range(len(raw)):
-		raw[i]=raw[i]+'\n'
-
-	splitraw=sim2pkm.splitExport(raw)
 	pokes = []
-	for entry in splitraw:
-		pokes.append(sim2pkm.sim2poke(entry))
-	for poke in pokes:
-		sim2pkm.writepkm(dirname+'/'+poke['species']+'.pkm',poke)
+	raw= entryWidget.get().split('\n')
+	if raw[0].startswith('[{"'):
+		team = json.loads(raw[0])
+		for entry in team:
+			pokes.append(sim2pkm.json2poke(entry))
+	else:
+		for i in range(len(raw)):
+			raw[i]=raw[i]+'\n'
+		splitraw=sim2pkm.splitExport(raw)
+		for entry in splitraw:
+			pokes.append(sim2pkm.sim2poke(entry))
+	for i in range(len(pokes)):
+		if randTeam.get():
+			filename = str(i+1)
+		else:
+			filename = pokes[i]['species']
+		sim2pkm.writepkm(dirname+'/'+filename+'.pkm',pokes[i])
     	root.destroy()
 
 dirname = '..'
 root = Tk()
+randTeam = IntVar()
 root.withdraw()
 
 root.title("sim2pkm")
@@ -63,7 +73,10 @@ entryWidget = mywidgets(textFrame)
 textFrame.pack()
 
 button = Button(textFrame, text="Generate pkms & close", command=doTheThing)
-button.pack() 
+button.pack(side=LEFT)
+
+c = Checkbutton(textFrame, text="Numbered pkms", variable=randTeam)
+c.pack(side=RIGHT)
 dirname = askdirectory(parent=root, initialdir='.', title='Select folder to generate pkm files into')
 root.deiconify()
 root.mainloop()

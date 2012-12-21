@@ -1,5 +1,6 @@
 from lookup import *
 from ballEnforce import *
+from random import random
 
 def statFormula(base,lv,nat,iv,ev):
 	if nat == -1: #for HP
@@ -53,9 +54,9 @@ def writepkm(filename,poke):
 			forme = 1
 		else:
 			forme = 0
-	if poke['gender'] is 'm':
+	if poke['gender'] == 'm':
 		gender = 1
-	elif poke['gender'] is 'f':
+	elif poke['gender'] == 'f':
 		gender = 2
 	else:
 		gender=0
@@ -238,11 +239,17 @@ def sim2poke(raw):
 	if species.startswith('arceus'):
 		species = 'arceus'
 
-	if gender is 'n':
-		if species in ['Braviary','Gallade','Hitmonchan','Hitmonlee','Hitmontop','Landorus','Latios','Mothim','Nidoking','NidoranM','Nidorino','Rufflet','Sawk','Tauros','Throh','Thundurus','Tornadus','Tyrogue','Volbeat']:
-			gender = 'm'
-		elif species in ['Blissey','Chansey','Cresselia','Froslass','Happiny','Illumise','Jynx','Kangaskhan','Latias','Lilligant','Mandibuzz','Miltank','Nidoqueen','NidoranF','Nidorina','Petilil','Smoochum','Vespiquen','Vullaby','Wormadam']:
-			gender = 'f'
+	if 'gender' in pokedex[species]:
+		gender = keyify(pokedex[species]['gender'])
+	elif gender == 'n':
+		#pick gender at random
+		gender = 'f'
+		if 'genderRatio' in pokedex[species]:
+			if random() < pokedex[species]['genderRatio']['M']:
+				gender = 'm'
+		else:
+			if random < 0.5:
+				gender = 'm'
 
 	if '@' in line:
 		item = keyify(line[string.rfind(line,'@')+1:len(line)-1])
@@ -250,6 +257,7 @@ def sim2poke(raw):
 	for line in raw[1:]:
 		if line == '\n':
 			break
+		
 		if line.startswith('Trait:'):
 			ability = keyify(line[6:len(line)-1])
 		elif line.startswith('Level:'):
@@ -347,6 +355,58 @@ def sim2poke(raw):
 		'happiness': happiness,
 		'ability': keyLookup[ability]}
 
+def json2poke(j):
+	species = 'empty'
+	nick = ''
+	item = 'nothing'
+	ability = ''
+	level=100
+	evs = {'hp': 0, 'atk': 0, 'def': 0, 'spa': 0, 'spd': 0, 'spe': 0}
+	ivs = {'hp': 31, 'atk': 31, 'def': 31, 'spa': 31, 'spd': 31, 'spe': 31}
+	moves = []
+	gender = 'n'
+	happiness = 255
+	nature = 'hardy'
+
+	if 'species' in j:
+		species = keyify(j['species'])
+	else:
+		species = keyify(j['name'])
+	if 'item' in j:
+		item = keyify(j['item'])
+		if keyLookup[item] not in inv_items:
+			item = 'nothing'
+	if 'ability' in j:
+		ability = keyify(j['ability'])
+	if 'level' in j:
+		level = int(j['level'])
+	if 'evs' in j:
+		for stat in j['evs']:
+			evs[stat]=int(j['evs'][stat])
+	if 'ivs' in j:
+		for stat in j['ivs']:
+			ivs[stat]=int(j['ivs'][stat])
+	if 'moves' in j:
+		moves = j['moves']
+	if 'gender' in j:
+		gender = keyify(j['gender'])
+	if 'happiness' in j:
+		happiness = int(j['happiness'])
+	if 'nature' in j:
+		nature = keyify(j['nature'])
+
+	return {'species': keyLookup[species],
+		'nick': nick,
+		'gender': gender,
+		'level': level,
+		'evs': [evs['hp'],evs['atk'],evs['def'],evs['spa'],evs['spd'],evs['spe']],
+		'ivs': [ivs['hp'],ivs['atk'],ivs['def'],ivs['spa'],ivs['spd'],ivs['spe']],
+		'moves': moves,
+		'nature': keyLookup[nature],
+		'item': keyLookup[item],
+		'happiness': happiness,
+		'ability': keyLookup[ability]}
+
 def splitExport(raw):
 	working=[]
 	splitraw=[]
@@ -361,4 +421,13 @@ def splitExport(raw):
 		splitraw.append(working)
 	return splitraw
 		
-		
+def splitTeams(raw):
+	teams={}
+	working=[]
+	for line in raw:
+		if line.startswith('='):
+			name = keyify(line)
+			teams[name]=[]
+		else:
+			teams[name].append(line)
+	return teams

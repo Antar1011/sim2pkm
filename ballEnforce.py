@@ -1,39 +1,4 @@
-import json
-import string
-
-file=open("learnsets.json")
-raw=file.readline()
-file.close()
-learnset = json.loads(raw[1:len(raw)-2])
-file=open("pokedex.json")
-raw=file.readline()
-file.close()
-pokedex = json.loads(raw[1:len(raw)-2])
-
-movepool = {}
-
-def keyify(s):
-	sout = ''
-	for c in s:
-		if c in string.uppercase:
-			sout = sout + c.lower()
-		elif c in string.lowercase + '1234567890':
-			sout = sout + c
-	return sout
-
-#fixes to learnsets
-for poke in learnset:
-	movepool[poke] = learnset[poke]['learnset'].keys()
-	if 'prevo' in pokedex[poke].keys():
-		prevo = pokedex[poke]['prevo']
-		movepool[poke].append(learnset[prevo]['learnset'].keys())
-		if 'prevo' in pokedex[prevo].keys():
-			baby = pokedex[prevo]['prevo']
-			movepool[poke].append(learnset[baby]['learnset'].keys())
-movepool['deoxysattack']=movepool['deoxysdefense']=movepool['deoxysspeed']=movepool['deoxys']
-movepool['shaymin'].append(movepool['shayminsky'])
-movepool['shayminsky']=movepool['shaymin']
-
+from lookup import *
 
 cherishmove = {'Celebi': ['nastyplot'],
 	'Charmander': ['quickattack','howl'],
