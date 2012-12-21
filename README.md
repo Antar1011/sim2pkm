@@ -5,9 +5,9 @@ A project for taking PO/PS exports and converting them to pkm files for easy imp
 
 Supports ball enforcement (Pokeball is default. Cherish is forced for event-only/illegal movesets. Dream Ball is forced when ability demands it (dream radar)), nicknames and hidden power IVs.
 
-gui.py provides a rudimentary GUI interface, or one can use it from the command-line, as in the example below.
+This program can be used from the command-line, but I imagine most people will want to use the GUI interface provided by the gui.py file.
 
-Here's an example script showing how one might use this. Assume you've taken a team in PS, exported it, and saved it as "test.txt" and that you've created a subfolder for your pkm files called "pkms"
+Below is an example script showing how one might use this. Assume you've taken a team in PS, exported it, and saved it as "test.txt" and that you've created a subfolder for your pkm files called "pkms"
 
 ```python
 import sim2pkm

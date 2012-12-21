@@ -4,6 +4,7 @@ import json
 import string
 
 def keyify(s):
+	s=s.encode('ascii','ignore')
 	sout = ''
 	for c in s:
 		if c in string.uppercase:
