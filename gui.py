@@ -58,9 +58,9 @@ def doTheThing():
     	root.destroy()
 
 def randbats():
-	webbrowser.open("http://koalus-et-arbor.dyndns-ip.com/cgi-bin/randbats.sh")
+	webbrowser.open("http://sim.smogon.com:8080/cgi-bin/randbats.sh")
 def challengecup():
-	webbrowser.open("http://koalus-et-arbor.dyndns-ip.com/cgi-bin/CC.sh")
+	webbrowser.open("http:/sim.smogon.com:8080/cgi-bin/CC.sh")
 
 dirname = '..'
 root = Tk()

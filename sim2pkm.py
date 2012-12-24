@@ -91,7 +91,7 @@ def writepkm(filename,poke):
 	item = inv_items[poke['item']]
 	ability = inv_abilities[poke['ability']]
 
-	[ball, nonick] = ballEnforce(poke)
+	[ball, nonick,poke['shiny']] = ballEnforce(poke)
 	if nonick:
 		poke['nick']=''
 	
@@ -156,8 +156,13 @@ def writepkm(filename,poke):
 	#gender must also be set in the PID
 	if gender == 1:
 		p[0x00]=255
-	#disable shiny
-	p[0x01]=1	
+	
+	#shiny
+	if not poke['shiny']:
+		p[0x01]=1
+
+	if poke['shiny'] and gender == 1:
+		p[0x02]=p[0x00]	
 
 	#level & exp
 	p[0x8c]=poke['level']
@@ -253,6 +258,7 @@ def sim2poke(raw):
 	gender = 'n'
 	happiness = 255
 	nature = 'hardy'
+	shiny = False
 
 	#first line (species)
 	line=raw[0]
@@ -343,8 +349,9 @@ def sim2poke(raw):
 					ivs = hpivs(hptype)
 				move = 'hiddenpower'
 			moves.append(move)
-
-
+		elif line.startswith('Shiny'):
+			if keyify(line[string.find(line,':')+1:]) == 'yes':
+				shiny = True
 		elif not line.startswith('Shiny'): #nature
 			nature = keyify(line[0:string.rfind(line,'ature')-2])#Nature/nature
 
@@ -353,13 +360,14 @@ def sim2poke(raw):
 		'nick': nick,
 		'gender': gender,
 		'level': level,
-		'evs': [evs['hp'],evs['atk'],evs['def'],evs['spa'],evs['spd'],evs['spe']],
-		'ivs': [ivs['hp'],ivs['atk'],ivs['def'],ivs['spa'],ivs['spd'],ivs['spe']],
+		'evs': [evs['hp'],evs['atk'],evs['def'],evs['spe'],evs['spa'],evs['spd']],
+		'ivs': [ivs['hp'],ivs['atk'],ivs['def'],ivs['spe'],ivs['spa'],ivs['spd']],
 		'moves': moves,
 		'nature': keyLookup[nature],
 		'item': keyLookup[item],
 		'happiness': happiness,
-		'ability': keyLookup[ability]}
+		'ability': keyLookup[ability],
+		'shiny': shiny}
 
 def json2poke(j):
 	species = 'empty'
@@ -373,6 +381,7 @@ def json2poke(j):
 	gender = 'n'
 	happiness = 255
 	nature = 'hardy'
+	shiny = False
 
 	if 'species' in j:
 		species = keyify(j['species'])
@@ -400,6 +409,8 @@ def json2poke(j):
 		happiness = int(j['happiness'])
 	if 'nature' in j:
 		nature = keyify(j['nature'])
+	if 'shiny' in j:
+		shiny = j['shiny']
 
 	for i in range(len(moves)):
 		if moves[i].startswith('hiddenpower'):
@@ -412,13 +423,14 @@ def json2poke(j):
 		'nick': nick,
 		'gender': gender,
 		'level': level,
-		'evs': [evs['hp'],evs['atk'],evs['def'],evs['spa'],evs['spd'],evs['spe']],
-		'ivs': [ivs['hp'],ivs['atk'],ivs['def'],ivs['spa'],ivs['spd'],ivs['spe']],
+		'evs': [evs['hp'],evs['atk'],evs['def'],evs['spe'],evs['spa'],evs['spd']],
+		'ivs': [ivs['hp'],ivs['atk'],ivs['def'],ivs['spe'],ivs['spa'],ivs['spd']],
 		'moves': moves,
 		'nature': keyLookup[nature],
 		'item': keyLookup[item],
 		'happiness': happiness,
-		'ability': keyLookup[ability]}
+		'ability': keyLookup[ability],
+		'shiny': True}
 
 def splitExport(raw):
 	working=[]

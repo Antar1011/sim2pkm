@@ -45,10 +45,10 @@ for poke in learnset:
 	movepool[poke] = learnset[poke]['learnset'].keys()
 	if 'prevo' in pokedex[poke].keys():
 		prevo = pokedex[poke]['prevo']
-		movepool[poke].append(learnset[prevo]['learnset'].keys())
+		movepool[poke]=movepool[poke]+learnset[prevo]['learnset'].keys()
 		if 'prevo' in pokedex[prevo].keys():
 			baby = pokedex[prevo]['prevo']
-			movepool[poke].append(learnset[baby]['learnset'].keys())
+			movepool[poke]=movepool[poke]+learnset[baby]['learnset'].keys()
 movepool['deoxysattack']=movepool['deoxysdefense']=movepool['deoxysspeed']=movepool['deoxys']
 movepool['shaymin'].append(movepool['shayminsky'])
 movepool['shayminsky']=movepool['shaymin']
