@@ -60,7 +60,7 @@ def ballEnforce(poke):
 							shiny = eventmove[poke['species']]['shiny']
 			else:
 				ball = 'cherish'
-				print move+' is illegal on '+poke['species']
+				#print move+' is illegal on '+poke['species']
 				break
 
 	if ball == 'pokeball':
