@@ -50,8 +50,13 @@ for poke in learnset:
 			baby = pokedex[prevo]['prevo']
 			movepool[poke]=movepool[poke]+learnset[baby]['learnset'].keys()
 movepool['deoxysattack']=movepool['deoxysdefense']=movepool['deoxysspeed']=movepool['deoxys']
-movepool['shaymin'].append(movepool['shayminsky'])
+movepool['shaymin']=movepool['shaymin']+movepool['shayminsky']
 movepool['shayminsky']=movepool['shaymin']
+movepool['tornadustherian']=movepool['tornadus']
+movepool['thundurustherian']=movepool['thundurus']
+movepool['landorustherian']=movepool['landorus']
+movepool['giratinaorigin']=movepool['giratina']
+
 
 
 statTranslate = {'HP': 'hp',
@@ -89,7 +94,7 @@ aliases={
 	'Tornadus-Therian': ['Tornadus-T'],
 	'Thundurus-Therian': ['Thundurus-T'],
 	'Landorus-Therian': ['Landorus-T'],
-	'Keldeo': ['Keldeo-R','Keldeo-Resolution'],
+	'Keldeo': ['Keldeo-R','Keldeo-Resolution','Keldeo-Resolute'],
 	'Meloetta': ['Meloetta-S','Meloetta-Pirouette'],
 	'Genesect': ['Genesect-Douse','Genesect-Burn','Genesect-Shock','Genesect-Chill','Genesect-D','Genesect-S','Genesect-B','Genesect-C'],
 	'Darmanitan': ['Darmanitan-D','Darmanitan-Zen'],

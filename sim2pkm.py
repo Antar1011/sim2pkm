@@ -387,6 +387,11 @@ def json2poke(j):
 		species = keyify(j['species'])
 	else:
 		species = keyify(j['name'])
+
+	if species in ['keldeoresolute','keldeoresolution']:
+		species = 'keldeo'
+	
+ 
 	if 'item' in j:
 		item = keyify(j['item'])
 		if keyLookup[item] not in inv_items:
@@ -411,6 +416,7 @@ def json2poke(j):
 		nature = keyify(j['nature'])
 	if 'shiny' in j:
 		shiny = j['shiny']
+
 
 	for i in range(len(moves)):
 		if moves[i].startswith('hiddenpower'):
