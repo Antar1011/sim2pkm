@@ -1,14 +1,17 @@
 Thank you for downloading sim2pkm
 
-v1.0
+v1.3
 
 Project Home: https://github.com/Antar1011/sim2pkm
 
 
 What is sim2pkm?
 	sim2pkm is a simple program for taking PO/PS exports and converting them to pkm files for easy importing into Pokegen. It also
-supports input in the form of PS-style JSON strings. sim2pkm supports ball enforcement, nicknames and
-hidden power IVs.
+supports input in the form of PS-style JSON strings. While sim2pkm Pokemon are not designed to pass hack
+checks, the program does perform some rudimentary "legalizing:" specifically, Pokemon that MUST be in a
+given type of Pokeball will be put in that Pokeball, Pokemon that MUST be shiny will be made shiny (and
+those that cannot will be forced to not be shiny), and Pokemon that cannot be nicknamed or have a nickname
+longer than 10 characters in length will have their nicknames removed.
 	The interface also provides links to random team generators, so you can use it to generate pkm files
 for Challenge Cup (CC4Wifi) battles as well as Pokemon Showdown-style "randbats."
 
@@ -51,6 +54,9 @@ and try to fix whatever's going on.
 
 
 Changelog:
+v1.3 -- 2012/12/24: Pokemon Online compatibility bugfix
+v1.2 -- 2012/12/24: Fixed problems with formes
+v1.1 -- 2012/12/24: Shiny enforcement and multiple bugfixes 
 v1.0 -- 2012/12/21: Released
 
 

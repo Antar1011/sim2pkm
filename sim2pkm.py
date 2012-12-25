@@ -263,10 +263,10 @@ def sim2poke(raw):
 	#first line (species)
 	line=raw[0]
 	if '(' in line: #nicknamed
-		species = keyify(line[string.rfind(line,'(')+1:string.rfind(line,')')])
+		species = line[string.rfind(line,'(')+1:string.rfind(line,')')]
 		nick = line[:string.rfind(line,'(')-1]
-		if species in ['m','f']: #you got gender, not species
-			gender = species
+		if keyify(species) in ['m','f']: #you got gender, not species
+			gender = keyify(species)
 
 			if '(' in line[:string.rfind(line,'(')]:
 				species = line[string.rfind(line,'(',0,string.rfind(line,'('))+1:string.rfind(line,')',0,string.rfind(line,'('))]
@@ -282,7 +282,7 @@ def sim2poke(raw):
 
 	if len(nick)>10:
 		nick = '' #no nicknames longer than 10 chars
-
+	
 	if species[0] not in string.lowercase + string.uppercase:
 		species=species[1:]
 	while species[len(species)-1] in ')". ':
