@@ -1,6 +1,6 @@
 Thank you for downloading sim2pkm
 
-v1.3
+v1.4
 
 Project Home: https://github.com/Antar1011/sim2pkm
 
@@ -54,6 +54,7 @@ and try to fix whatever's going on.
 
 
 Changelog:
+v1.4 -- 2012/12/29: Mac compatibility fix
 v1.3 -- 2012/12/24: Pokemon Online compatibility bugfix
 v1.2 -- 2012/12/24: Fixed problems with formes
 v1.1 -- 2012/12/24: Shiny enforcement and multiple bugfixes 

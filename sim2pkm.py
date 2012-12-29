@@ -283,6 +283,7 @@ def sim2poke(raw):
 	if len(nick)>10:
 		nick = '' #no nicknames longer than 10 chars
 	
+	species=species.encode('ascii','ignore')
 	if species[0] not in string.lowercase + string.uppercase:
 		species=species[1:]
 	while species[len(species)-1] in ')". ':
