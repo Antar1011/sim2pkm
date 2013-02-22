@@ -437,7 +437,7 @@ def json2poke(j):
 		'item': keyLookup[item],
 		'happiness': happiness,
 		'ability': keyLookup[ability],
-		'shiny': True}
+		'shiny': shiny}
 
 def splitExport(raw):
 	working=[]
