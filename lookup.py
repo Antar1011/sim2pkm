@@ -100,7 +100,8 @@ aliases={
 	'Darmanitan': ['Darmanitan-D','Darmanitan-Zen'],
 	'Basculin': ['Basculin-Blue-Striped','Basculin-A'],
 	'Kyurem-Black': ['Kyurem-B'],
-	'Kyurem-White': ['Kyurem-W']
+	'Kyurem-White': ['Kyurem-W'],
+	'Ho-Oh': ['Ho-oh','HoOh']
 }
 
 #fix species
@@ -129,7 +130,6 @@ replacements = {
 	'Kyurem-B' : 'Kyurem-Black',
 	'Kyurem-W' : 'Kyurem-White',
 	'Shaymin-S' : 'Shaymin-Sky',
-	'Ho-oh' : 'Ho-Oh',
 	"Birijion": "Virizion",
 	"Terakion": "Terrakion",
 	"Agirudaa": "Accelgor",
@@ -419,7 +419,7 @@ species = {
     247: 'Pupitar',
     248: 'Tyranitar',
     249: 'Lugia',
-    250: 'HoOh',
+    250: 'Ho-Oh',
     251: 'Celebi',
     252: 'Treecko',
     253: 'Grovyle',
