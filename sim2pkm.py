@@ -323,6 +323,8 @@ def sim2poke(raw):
 		
 		if line.startswith('Trait:'):
 			ability = keyify(line[6:len(line)-1])
+		elif line.startswith('Ability:'):
+			ability = keyify(line[8:len(line)-1])
 		elif line.startswith('Level:'):
 			level = int(line[6:len(line)-1])
 		elif line.startswith('EVs') or line.startswith('IVs'):
